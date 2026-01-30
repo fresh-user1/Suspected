@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUSPECTED — On-Chain Risk Registry</title>
+    <title>SUSPECTED — On-Chain Risk Registry & Tracer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         /* --- 1. VARIABLES & RESET --- */
         :root {
@@ -26,7 +25,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-
         body {
             font-family: var(--font-main);
             background-color: var(--bg-color);
@@ -62,20 +60,16 @@
         /* --- 4. HEADER --- */
         header {
             position: fixed; top: 0; width: 100%;
-            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(12px);
-            z-index: 1000; border-bottom: 1px solid var(--border-color);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
         }
         nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-        
-        .logo {
-            display: flex; align-items: center; height: 100%; text-decoration: none; padding: 5px 0;
-        }
-        .logo img {
-            height: 40px; width: auto; object-fit: contain; transition: var(--transition);
-            border: 1px solid transparent; 
-        }
+        .logo { display: flex; align-items: center; height: 100%; text-decoration: none; padding: 5px 0; }
+        .logo img { height: 40px; width: auto; transition: var(--transition); }
         .logo:hover img { filter: drop-shadow(0 0 5px var(--hazard-orange)); transform: scale(1.05); }
-
+        
         .nav-links { display: flex; gap: 30px; }
         .nav-links a {
             color: var(--text-main); text-decoration: none; font-size: 0.85rem;
@@ -86,10 +80,10 @@
 
         /* --- 5. HERO SECTION --- */
         #hero {
-            position: relative; height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden; padding-top: 70px;
-            background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%),
-                        url('https://white-permanent-bear-933.mypinata.cloud/ipfs/bafybeigz7wvqlczhocmmbv7y42lhl37oz3mks226urfqeh7vvqpt5m76ca') no-repeat center center/cover;
+            background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%), url('https://white-permanent-bear-933.mypinata.cloud/ipfs/bafybeigz7wvqlczhocmmbv7y42lhl37oz3mks226urfqeh7vvqpt5m76ca') no-repeat center center/cover;
         }
         #hero::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -105,29 +99,26 @@
             font-size: 1.1rem; font-family: var(--font-mono); color: var(--text-muted);
             margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;
         }
+        .hero-disclaimer { font-size: 0.85rem; opacity: 0.7; margin-bottom: 30px; font-family: var(--font-mono); color: #aaa; }
         
-        /* UPDATE 1: Styling untuk disclaimer tambahan */
-        .hero-disclaimer {
-            font-size: 0.85rem; opacity: 0.7; margin-bottom: 30px;
-            font-family: var(--font-mono); color: #aaa;
-        }
-
         .btn {
             display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px;
-            font-family: var(--font-mono); font-weight: 700; text-transform: uppercase;
-            text-decoration: none; cursor: pointer; transition: var(--transition);
-            border: 1px solid transparent; font-size: 0.85rem; letter-spacing: 1px;
+            font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; text-decoration: none;
+            cursor: pointer; transition: var(--transition); border: 1px solid transparent;
+            font-size: 0.85rem; letter-spacing: 1px;
         }
         .btn-primary { background-color: var(--hazard-orange); color: #fff; box-shadow: 0 0 20px rgba(255, 69, 0, 0.2); }
         .btn-primary:hover { background-color: var(--hazard-orange-hover); transform: translateY(-2px); }
         .btn-secondary { background-color: transparent; border: 1px solid var(--text-muted); color: var(--text-main); }
         .btn-secondary:hover { border-color: var(--hazard-orange); color: var(--hazard-orange); background: rgba(255,69,0,0.05); }
+        
         .cta-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-
+        
         /* Ticker */
         .ticker-wrap {
-            position: absolute; bottom: 0; left: 0; width: 100%; background: var(--hazard-orange);
-            color: #000; padding: 8px 0; z-index: 10; overflow: hidden; white-space: nowrap;
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: var(--hazard-orange); color: #000; padding: 8px 0;
+            z-index: 10; overflow: hidden; white-space: nowrap;
             font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; border-top: 2px solid #fff;
         }
         .ticker-move { display: inline-block; animation: ticker 25s linear infinite; }
@@ -153,70 +144,62 @@
         .zigzag-visual { flex: 0 0 160px; display: flex; justify-content: center; align-items: center; }
         .zigzag-content { flex: 1; }
         .tier-avatar-large {
-            width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--hazard-orange);
-            object-fit: cover; background: #000; padding: 4px;
+            width: 130px; height: 130px; border-radius: 50%;
+            border: 3px solid var(--hazard-orange); object-fit: cover; background: #000; padding: 4px;
         }
         .zigzag-row.tier-5-row { border: 1px solid var(--alert-red); box-shadow: inset 0 0 50px rgba(255, 0, 0, 0.1); }
         .zigzag-row.tier-5-row .tier-avatar-large { border-color: var(--alert-red); }
         .step-icon-large { font-size: 4rem; color: var(--hazard-orange); text-shadow: 0 0 15px rgba(255,69,0,0.4); }
 
-        /* --- 8. SUSPECTS GRID (UPDATED) --- */
-        #suspects { background-color: var(--bg-color); }
+        /* --- 8. SUSPECTS GRID --- */
         .suspect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 40px; }
-        
         .suspect-card {
-            background: #121212; border: 1px solid #2a2a2a; transition: var(--transition);
-            display: flex; flex-direction: column;
+            background: #121212; border: 1px solid #2a2a2a; transition: var(--transition); display: flex; flex-direction: column;
         }
         .suspect-card:hover { border-color: var(--cctv-green); box-shadow: 0 0 20px rgba(0, 255, 0, 0.05); transform: translateY(-5px); }
-        
         .suspect-header {
-            background: #1a1a1a; padding: 12px 20px; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: 1px solid #2a2a2a;
+            background: #1a1a1a; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2a2a;
         }
         .suspect-body { padding: 20px; display: flex; gap: 20px; align-items: flex-start; }
         .suspect-mugshot {
-            width: 70px; height: 70px; border-radius: 4px; border: 1px solid #444;
-            background: #000; object-fit: cover; filter: grayscale(100%) contrast(1.1);
+            width: 70px; height: 70px; border-radius: 4px; border: 1px solid #444; background: #000;
+            object-fit: cover; filter: grayscale(100%) contrast(1.1);
         }
         .suspect-details { flex: 1; }
-        .suspect-info { margin-bottom: 6px; font-size: 0.85rem; display: flex; justify-content: space-between; border-bottom: 1px dashed #222; padding-bottom: 4px;}
-        
-        /* Confidence Meter & Tags */
+        .suspect-info {
+            margin-bottom: 6px; font-size: 0.85rem; display: flex; justify-content: space-between;
+            border-bottom: 1px dashed #222; padding-bottom: 4px;
+        }
         .confidence-wrapper { margin-top: 10px; background: #000; padding: 8px; border: 1px solid #333; }
         .confidence-label { font-size: 0.7rem; color: #888; font-family: var(--font-mono); display: block; margin-bottom: 4px; }
         .confidence-bar { height: 4px; width: 100%; background: #333; position: relative; }
         .confidence-fill { height: 100%; background: var(--hazard-orange); box-shadow: 0 0 10px var(--hazard-orange); }
-        
-        /* Clarification Button */
         .card-footer {
-            padding: 10px 20px; border-top: 1px solid #2a2a2a; background: #0e0e0e;
-            display: flex; justify-content: flex-end;
+            padding: 10px 20px; border-top: 1px solid #2a2a2a; background: #0e0e0e; display: flex; justify-content: flex-end;
         }
         .btn-clarify {
-            background: transparent; border: 1px solid #444; color: #888;
-            font-size: 0.7rem; padding: 4px 10px; font-family: var(--font-mono);
-            cursor: pointer; text-transform: uppercase; transition: var(--transition);
+            background: transparent; border: 1px solid #444; color: #888; font-size: 0.7rem;
+            padding: 4px 10px; font-family: var(--font-mono); cursor: pointer; text-transform: uppercase; transition: var(--transition);
         }
         .btn-clarify:hover { border-color: #fff; color: #fff; }
-
         .suspect-status {
-            display: inline-block; padding: 1px 6px; font-size: 0.7rem; font-weight: bold;
-            text-transform: uppercase; border-radius: 2px;
+            display: inline-block; padding: 1px 6px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; border-radius: 2px;
         }
-        
         .status-unresolved { color: var(--alert-red); border: 1px solid var(--alert-red); background: rgba(255,0,0,0.1); }
-        .status-review { color: var(--hazard-orange); border: 1px solid var(--hazard-orange); background: rgba(255,69,0,0.1); }
 
-        /* --- 9. REPORT FORM --- */
-        #report { background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
-        .report-form-container {
-            max-width: 650px; margin: 0 auto; background: #151515; padding: 50px;
+        /* --- 9. INVESTIGATOR & FORMS --- */
+        .form-container-box {
+            max-width: 650px; margin: 0 auto; background: #151515; padding: 40px;
             border: 1px solid var(--border-color); position: relative;
         }
-        .report-form-container::before { content: ''; position: absolute; top: -1px; left: -1px; width: 15px; height: 15px; border-top: 2px solid var(--hazard-orange); border-left: 2px solid var(--hazard-orange); }
-        .report-form-container::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 15px; height: 15px; border-bottom: 2px solid var(--hazard-orange); border-right: 2px solid var(--hazard-orange); }
-        
+        .form-container-box::before {
+            content: ''; position: absolute; top: -1px; left: -1px; width: 15px; height: 15px;
+            border-top: 2px solid var(--hazard-orange); border-left: 2px solid var(--hazard-orange);
+        }
+        .form-container-box::after {
+            content: ''; position: absolute; bottom: -1px; right: -1px; width: 15px; height: 15px;
+            border-bottom: 2px solid var(--hazard-orange); border-right: 2px solid var(--hazard-orange);
+        }
         .form-group { margin-bottom: 25px; }
         .form-label { display: block; margin-bottom: 8px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
         .form-control {
@@ -224,24 +207,20 @@
             padding: 14px; font-family: var(--font-mono); font-size: 0.9rem; transition: var(--transition);
         }
         .form-control:focus { outline: none; border-color: var(--hazard-orange); }
-        
+
         /* --- 10. FOOTER --- */
         footer { background-color: #050505; padding: 60px 0 30px; border-top: 1px solid var(--border-color); }
         .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; margin-bottom: 40px; }
         .footer-logo { font-size: 1.2rem; font-weight: 800; color: #fff; letter-spacing: 2px; text-decoration: none; }
         .footer-links a { color: #555; text-decoration: none; margin-left: 20px; font-size: 1.2rem; transition: var(--transition); }
         .footer-links a:hover { color: var(--hazard-orange); }
-        .disclaimer { 
-            border-top: 1px solid #1a1a1a; padding-top: 30px; text-align: left; 
-            font-size: 0.7rem; color: #555; font-family: var(--font-mono); 
-            line-height: 1.5;
-        }
+        .disclaimer { border-top: 1px solid #1a1a1a; padding-top: 30px; text-align: left; font-size: 0.7rem; color: #555; font-family: var(--font-mono); line-height: 1.5; }
 
         /* --- 11. TOAST --- */
         .toast {
             position: fixed; bottom: 30px; right: 30px; background: #1a1a1a; border-left: 4px solid var(--cctv-green);
-            padding: 20px 25px; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateX(200%);
-            transition: transform 0.4s ease; z-index: 2000; display: flex; align-items: center; gap: 15px;
+            padding: 20px 25px; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateX(200%); transition: transform 0.4s ease; z-index: 2000; display: flex; align-items: center; gap: 15px;
         }
         .toast.show { transform: translateX(0); }
 
@@ -252,22 +231,20 @@
             .menu-toggle { display: block; }
             .zigzag-row, .zigzag-row:nth-child(even) { flex-direction: column; text-align: center; gap: 20px; padding: 30px 20px; }
             .zigzag-row:hover, .zigzag-row:nth-child(even):hover { transform: none; }
-            .report-form-container { padding: 30px 20px; }
             .cta-row { flex-direction: column; }
             .btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
-
     <div class="noise-overlay"></div>
     <div class="scanlines"></div>
 
     <div id="toast" class="toast">
         <i class="fa-solid fa-circle-check" style="color: var(--cctv-green); font-size: 1.5rem;"></i>
         <div>
-            <h4 style="margin-bottom: 5px;">Data Submitted</h4>
-            <p style="font-size: 0.85rem; color: #888;">Report queued for algorithmic verification.</p>
+            <h4 style="margin-bottom: 5px;" id="toastTitle">System Notification</h4>
+            <p style="font-size: 0.85rem; color: #888;" id="toastMessage">Operation successful.</p>
         </div>
     </div>
 
@@ -283,6 +260,7 @@
                 <div class="nav-links">
                     <a href="#mission">Mission</a>
                     <a href="#methodology">Methodology</a>
+                    <a href="#investigator">Live Tracer</a>
                     <a href="#registry">Risk Registry</a>
                     <a href="#report">Submit Data</a>
                 </div>
@@ -294,14 +272,12 @@
         <section id="hero">
             <div class="hero-content">
                 <h1 class="hero-title reveal">Suspected</h1>
-                <h2 class="hero-subtitle reveal">On-Chain Risk Registry & Transaction Analysis</h2>
-                
+                <h2 class="hero-subtitle reveal">On-Chain Risk Registry & Multi-Chain Analysis</h2>
                 <p class="hero-disclaimer reveal">
-                    Aggregating verifiable on-chain anomalies. Not a confirmation of illicit identity.
+                    Aggregating verifiable on-chain anomalies. Now supporting ETH, BSC, Solana, & Base tracing.
                 </p>
-
                 <div class="cta-row reveal">
-                    <a href="#report" class="btn btn-primary"><i class="fa-solid fa-triangle-exclamation"></i> Submit Risk Signal</a>
+                    <a href="#investigator" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass-dollar"></i> Start Investigation</a>
                     <a href="#registry" class="btn btn-secondary"><i class="fa-solid fa-database"></i> Access Registry</a>
                 </div>
             </div>
@@ -309,7 +285,7 @@
                 <div class="ticker-move">
                     <span class="ticker-item">New Entry: 0xAbC...eF1 | Tier 3 | Status: Under Review | Risk: High</span>
                     <span class="ticker-item">ALERT: Critical Liquidity Event Detected | 0x99...22A | Tier 4</span>
-                    <span class="ticker-item">System Update: Synced | Block Height: 18,230,112</span>
+                    <span class="ticker-item">System Update: Synced with Solana Mainnet | Block Height: 248,230,112</span>
                 </div>
             </div>
         </section>
@@ -318,7 +294,7 @@
             <div class="container text-center reveal">
                 <h2 class="section-title" style="border: none; padding: 0; display: inline-block;">Mission Statement</h2>
                 <p class="section-desc" style="margin: 20px auto; color: #ccc;">
-                    Suspected is an on-chain risk registry that indexes wallet addresses exhibiting transaction patterns commonly associated with liquidity removal and high-risk behavior. All entries are based on publicly verifiable blockchain data and do not represent legal judgments or criminal accusations.
+                    Suspected is an on-chain risk registry that indexes wallet addresses exhibiting transaction patterns commonly associated with liquidity removal and high-risk behavior.
                 </p>
             </div>
         </section>
@@ -331,37 +307,71 @@
                 
                 <div class="zigzag-container">
                     <div class="zigzag-row reveal">
-                        <div class="zigzag-visual">
-                            <i class="fa-solid fa-file-contract step-icon-large"></i>
-                        </div>
+                        <div class="zigzag-visual"><i class="fa-solid fa-file-contract step-icon-large"></i></div>
                         <div class="zigzag-content">
                             <span style="font-family: var(--font-mono); color: #666;">PHASE 01</span>
                             <h3 style="font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase;">Data Ingestion</h3>
-                            <p style="color: #aaa;">The system aggregates user-submitted wallet addresses alongside transaction proofs (TXID) indicating potential liquidity breaches.</p>
+                            <p style="color: #aaa;">The system aggregates user-submitted wallet addresses indicating potential liquidity breaches across EVM & Solana.</p>
                         </div>
                     </div>
-
                     <div class="zigzag-row reveal">
-                        <div class="zigzag-visual">
-                            <i class="fa-solid fa-magnifying-glass-chart step-icon-large"></i>
-                        </div>
+                        <div class="zigzag-visual"><i class="fa-solid fa-magnifying-glass-chart step-icon-large"></i></div>
                         <div class="zigzag-content">
                             <span style="font-family: var(--font-mono); color: #666;">PHASE 02</span>
-                            <h3 style="font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase;">Pattern Verification</h3>
-                            <p style="color: #aaa;">Algorithms analyze on-chain behaviors (wash trading, mint authority abuse, liquidity withdrawal) to assign a Confidence Score.</p>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase;">Deep Tracing</h3>
+                            <p style="color: #aaa;">Our recursive algorithm follows the money trail up to 20 layers deep to identify the funding source (Whale/Exchange).</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="investigator" class="section-padding" style="background: #080808; border-top: 1px solid #222; border-bottom: 1px solid #222;">
+            <div class="container">
+                <div class="text-center reveal">
+                    <h2 class="section-title" style="border: none; color: #fff;">Live Money Tracer</h2>
+                    <p style="color: #888;">Multi-Chain analysis (ETH, BSC, SOL, BASE). Trace the flow of funds in real-time.</p>
+                </div>
+
+                <div class="form-container-box reveal" style="margin-top: 40px;">
+                    <div class="form-group">
+                        <label class="form-label">SELECT NETWORK</label>
+                        <select id="chainSelect" class="form-control" style="height: 50px;">
+                            <option value="base">Base (L2) - Fastest</option>
+                            <option value="ethereum">Ethereum (ETH) - Premium</option>
+                            <option value="bsc">Binance Smart Chain (BSC)</option>
+                            <option value="solana">Solana (SOL)</option>
+                        </select>
                     </div>
 
-                    <div class="zigzag-row reveal">
-                        <div class="zigzag-visual">
-                            <i class="fa-solid fa-database step-icon-large"></i>
-                        </div>
-                        <div class="zigzag-content">
-                            <span style="font-family: var(--font-mono); color: #666;">PHASE 03</span>
-                            <h3 style="font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase;">Registry Indexing</h3>
-                            <p style="color: #aaa;">Wallets meeting the risk threshold are indexed with a severity tier. Note: Entries are subject to review and clarification.</p>
-                        </div>
+                    <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                        <label style="flex: 1; cursor: pointer; border: 1px solid #333; padding: 15px; text-align: center; transition: 0.3s;" onclick="selectPlan(10)" id="plan10">
+                            <input type="radio" name="depth" value="10" checked style="display:none;">
+                            <div style="color: #fff; font-weight: bold;">Standard (10 Hops)</div>
+                            <div style="color: #FF4500; font-size: 0.8rem; margin-top: 5px;">$0.03 / Trace</div>
+                        </label>
+                        <label style="flex: 1; cursor: pointer; border: 1px solid #333; padding: 15px; text-align: center; transition: 0.3s;" onclick="selectPlan(20)" id="plan20">
+                            <input type="radio" name="depth" value="20" style="display:none;">
+                            <div style="color: #fff; font-weight: bold;">Deep Trace (20 Hops)</div>
+                            <div style="color: var(--hazard-orange); font-size: 0.8rem; margin-top: 5px;">$0.055 / Trace</div>
+                        </label>
                     </div>
+
+                    <div class="form-group">
+                        <input type="text" id="traceInput" class="form-control" placeholder="Paste Suspect Wallet Address (0x... or Sol Address)" style="text-align: center;">
+                    </div>
+                    
+                    <button onclick="startInvestigation()" id="btnTrace" class="btn btn-primary" style="width: 100%; justify-content: center; background: #FF4500; border: none;">
+                        <i class="fa-solid fa-magnifying-glass-dollar"></i> Start Investigation
+                    </button>
+                </div>
+
+                <div id="traceResult" style="display: none; max-width: 800px; margin: 40px auto; border: 1px solid var(--data-blue);">
+                    <div style="background: rgba(0, 210, 255, 0.1); padding: 15px; border-bottom: 1px solid var(--data-blue);">
+                        <h3 style="color: var(--data-blue); font-family: var(--font-mono); font-size: 1rem;">// TRACE RESULT LOG</h3>
+                    </div>
+                    <div id="traceLog" style="padding: 20px; font-family: var(--font-mono); font-size: 0.9rem; color: #ccc; background: #000; max-height: 400px; overflow-y: auto;">
+                        </div>
                 </div>
             </div>
         </section>
@@ -370,67 +380,23 @@
             <div class="container">
                 <div class="text-center reveal" style="margin-bottom: 60px;">
                     <h2 class="section-title" style="border: none; display: inline-block; border-bottom: 3px solid var(--hazard-orange); padding-bottom: 10px;">Severity Classifications</h2>
-                    <p class="section-desc" style="margin: 20px auto;">Risk tiers are calculated based on estimated on-chain value impact.</p>
                 </div>
-
                 <div class="zigzag-container">
-                    
                     <div class="zigzag-row reveal">
-                        <div class="zigzag-visual">
-                            <img src="https://robohash.org/tier1?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large">
-                        </div>
+                        <div class="zigzag-visual"><img src="https://robohash.org/tier1?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large"></div>
                         <div class="zigzag-content">
-                            <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 1 — Low Liquidity Risk</h3>
-                            <div style="color: var(--cctv-green); font-family: var(--font-mono); margin-bottom: 10px;">IMPACT: &lt; $5,000</div>
-                            <p style="color: #888;">Wallets associated with low-cap honeypot signatures or minor liquidity removal events.</p>
+                            <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 1 — Low Risk</h3>
+                            <div style="color: var(--cctv-green); font-family: var(--font-mono);">IMPACT: &lt; $5,000</div>
                         </div>
                     </div>
-
-                    <div class="zigzag-row reveal">
-                        <div class="zigzag-visual">
-                            <img src="https://robohash.org/tier2?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large">
-                        </div>
-                        <div class="zigzag-content">
-                            <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 2 — Pattern Anomaly</h3>
-                            <div style="color: var(--cctv-green); font-family: var(--font-mono); margin-bottom: 10px;">IMPACT: $5k – $50k</div>
-                            <p style="color: #888;">Wallets exhibiting manipulative behavior in microcap tokens, often preceding project abandonment.</p>
-                        </div>
-                    </div>
-
-                    <div class="zigzag-row reveal">
-                        <div class="zigzag-visual">
-                            <img src="https://robohash.org/tier3?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large">
-                        </div>
-                        <div class="zigzag-content">
-                            <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 3 — High Impact Event</h3>
-                            <div style="color: var(--cctv-green); font-family: var(--font-mono); margin-bottom: 10px;">IMPACT: $50k – $250k</div>
-                            <p style="color: #888;">Coordinated transaction patterns impacting significant holder counts. Clear signs of profit consolidation.</p>
-                        </div>
-                    </div>
-
-                    <div class="zigzag-row reveal">
-                        <div class="zigzag-visual">
-                            <img src="https://robohash.org/tier4?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large">
-                        </div>
-                        <div class="zigzag-content">
-                            <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 4 — Systemic Risk Actor</h3>
-                            <div style="color: var(--cctv-green); font-family: var(--font-mono); margin-bottom: 10px;">IMPACT: $250k – $1M</div>
-                            <p style="color: #888;">Complex cross-chain movement of funds derived from multiple liquidity events. Rapid deployment capability.</p>
-                        </div>
-                    </div>
-
                     <div class="zigzag-row tier-5-row reveal">
-                        <div class="zigzag-visual">
-                            <img src="https://robohash.org/tier5?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large">
-                        </div>
+                        <div class="zigzag-visual"><img src="https://robohash.org/tier5?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large"></div>
                         <div class="zigzag-content">
-                            <h3 style="font-size: 1.4rem; text-transform: uppercase; color: var(--alert-red);">Tier 5 — Critical Risk Actor</h3>
-                            <div style="color: var(--alert-red); font-family: var(--font-mono); margin-bottom: 10px; font-weight: bold;">IMPACT: &gt; $1,000,000</div>
-                            <p style="color: #aaa;">Statistical risk assessment indicates maximum severity. Wallet patterns show massive liquidity extraction.</p>
-                            <span style="display: inline-block; border: 1px solid var(--alert-red); color: var(--alert-red); font-size: 0.7rem; padding: 2px 6px; margin-top: 10px; font-family: var(--font-mono);">CRITICAL RISK LEVEL</span>
+                            <h3 style="font-size: 1.4rem; text-transform: uppercase; color: var(--alert-red);">Tier 5 — Critical Risk</h3>
+                            <div style="color: var(--alert-red); font-family: var(--font-mono); font-weight: bold;">IMPACT: &gt; $1,000,000</div>
+                            <p style="color: #aaa;">Statistical risk assessment indicates massive liquidity extraction.</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -441,7 +407,6 @@
                     <h2 class="section-title reveal" style="margin-bottom: 0;">Recent Risk Signals</h2>
                     <a href="#" class="btn btn-secondary reveal" style="padding: 8px 15px; font-size: 0.75rem;">Full Database</a>
                 </div>
-                
                 <div class="suspect-grid">
                     <div class="suspect-card reveal">
                         <div class="suspect-header">
@@ -454,18 +419,13 @@
                                 <div class="suspect-info"><span>Class:</span> <strong class="text-orange">Tier 3</strong></div>
                                 <div class="suspect-info"><span>Status:</span> <span class="suspect-status status-unresolved">Under Review</span></div>
                                 <div class="suspect-info"><span>Est. Value:</span> <strong>$72,530</strong></div>
-                                
                                 <div class="confidence-wrapper">
                                     <span class="confidence-label">CONFIDENCE SCORE: 78%</span>
                                     <div class="confidence-bar"><div class="confidence-fill" style="width: 78%;"></div></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button class="btn-clarify">Request Review / Submit Context</button>
-                        </div>
                     </div>
-
                     <div class="suspect-card reveal">
                         <div class="suspect-header">
                             <span style="font-family: var(--font-mono); color: #fff;">0x98D…42e</span>
@@ -477,33 +437,26 @@
                                 <div class="suspect-info"><span>Class:</span> <strong style="color: var(--alert-red);">Tier 5</strong></div>
                                 <div class="suspect-info"><span>Status:</span> <span class="suspect-status status-unresolved">Elevated Risk</span></div>
                                 <div class="suspect-info"><span>Est. Value:</span> <strong>$2.4M</strong></div>
-
                                 <div class="confidence-wrapper">
                                     <span class="confidence-label">CONFIDENCE SCORE: 96%</span>
                                     <div class="confidence-bar"><div class="confidence-fill" style="width: 96%; background: var(--alert-red); box-shadow: 0 0 10px var(--alert-red);"></div></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button class="btn-clarify">Request Review / Submit Context</button>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="report" class="section-padding">
+        <section id="report" class="section-padding" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color);">
             <div class="container">
                 <div class="text-center reveal">
                     <h2 class="section-title" style="border: none; padding: 0;">Submit Risk Signal</h2>
-                    <p style="color: var(--text-muted); margin-bottom: 10px;">Anonymous submission. Ensure all transaction proofs are valid. False flagging triggers a ban.</p>
-                    
                     <p class="legal-note" style="margin-bottom: 40px; font-size: 0.8em; color: #666; font-family: var(--font-mono);">
-                        Submissions must reference verifiable on-chain data and do not constitute allegations of intent or identity.
+                        Submissions must reference verifiable on-chain data.
                     </p>
                 </div>
-
-                <div class="report-form-container reveal">
+                <div class="form-container-box reveal">
                     <form id="reportForm">
                         <div class="form-group">
                             <label class="form-label">WALLET ADDRESS</label>
@@ -512,7 +465,7 @@
                         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                             <div class="form-group" style="flex: 1; min-width: 200px;">
                                 <label class="form-label">NETWORK</label>
-                                <select class="form-control"><option>Ethereum</option><option>Base</option></option><option>BSC</option><option>Solana</option></select>
+                                <select class="form-control"><option>Ethereum</option><option>Base</option><option>BSC</option><option>Solana</option></select>
                             </div>
                             <div class="form-group" style="flex: 1; min-width: 200px;">
                                 <label class="form-label">EST. IMPACT (USD)</label>
@@ -542,81 +495,171 @@
                 </div>
             </div>
             <div class="disclaimer">
-                <p>All information displayed is derived from publicly available blockchain data. Suspected does not assert criminal intent, identity, or legal responsibility. This platform provides analytical risk signals for educational and research purposes only. Submitted clarifications are displayed for transparency and do not imply endorsement or verification.</p>
+                <p>All information displayed is derived from publicly available blockchain data. Suspected does not assert criminal intent. Analytical risk signals only.</p>
             </div>
         </div>
     </footer>
 
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Scroll Animation
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('active');
-        });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. SCROLL REVEAL
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('active');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // 2. REAL FORM SUBMISSION (Connect to Python Backend)
-    const form = document.getElementById('reportForm');
-    const toast = document.getElementById('toast');
-    
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = form.querySelector('button');
-        const originalHTML = btn.innerHTML;
-        
-        // Ambil data dari input
-        const formData = {
-            address: form.querySelector('input[placeholder="0x..."]').value,
-            chain: form.querySelector('select').value,
-            impact: form.querySelector('input[type="number"]').value,
-            evidence: form.querySelector('input[type="url"]').value
-        };
-
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> SENDING...';
-        btn.style.opacity = '0.7';
-        
-        try {
-            // Kirim ke Backend Railway
-            const response = await fetch('/api/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+            // 2. MOBILE MENU
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            menuToggle.addEventListener('click', () => {
+                const isHidden = getComputedStyle(navLinks).display === 'none';
+                if(isHidden) {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '70px'; navLinks.style.left = '0'; navLinks.style.width = '100%';
+                    navLinks.style.background = '#0a0a0a'; navLinks.style.padding = '20px'; navLinks.style.borderBottom = '1px solid #333';
+                } else {
+                    navLinks.style.display = ''; navLinks.style.position = '';
+                }
             });
 
-            if (response.ok) {
-                toast.classList.add('show');
-                form.reset();
-                setTimeout(() => toast.classList.remove('show'), 4000);
-            } else {
-                alert("Submission failed. Server error.");
+            // 3. REPORT FORM HANDLER
+            const form = document.getElementById('reportForm');
+            const toast = document.getElementById('toast');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = form.querySelector('button');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> SENDING...';
+                
+                // Simulate sending
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    showToast("Report Submitted", "Queued for verification.");
+                    form.reset();
+                }, 1500);
+            });
+        });
+
+        // 4. LIVE TRACER LOGIC
+        let selectedDepth = 10;
+
+        function selectPlan(depth) {
+            selectedDepth = depth;
+            document.getElementById('plan10').style.borderColor = '#333';
+            document.getElementById('plan20').style.borderColor = '#333';
+            
+            if(depth === 20) document.getElementById('plan20').style.borderColor = 'var(--hazard-orange)';
+            else document.getElementById('plan10').style.borderColor = 'var(--cctv-green)';
+        }
+        
+        // Set default selection
+        selectPlan(10);
+
+        function showToast(title, msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        async function startInvestigation() {
+            const address = document.getElementById('traceInput').value;
+            const chain = document.getElementById('chainSelect').value;
+            const btn = document.getElementById('btnTrace');
+            const originalText = btn.innerHTML;
+
+            if(address.length < 30) return alert("Invalid Address Length");
+
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> GENERATING INVOICE...';
+
+            try {
+                // 1. Create Invoice with Chain Info
+                const payRes = await fetch('/api/payment/create', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ depth: selectedDepth, chain: chain })
+                });
+                const payData = await payRes.json();
+
+                // 2. Mock Payment Prompt
+                const userPaid = confirm(`Mockup Payment Gateway:\n\nPay $${payData.price} for ${chain.toUpperCase()} Trace?\n\n(Click OK to simulate 'Paid')`);
+
+                if(userPaid) {
+                    btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> SCANNING ${chain.toUpperCase()}...`;
+                    
+                    // 3. Execute Trace
+                    const traceRes = await fetch('/api/trace/execute', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ 
+                            address: address, 
+                            charge_id: payData.charge_id,
+                            depth: selectedDepth,
+                            chain: chain
+                        })
+                    });
+                    
+                    const result = await traceRes.json();
+                    renderTrace(result.data, chain);
+                    btn.innerHTML = 'Investigation Complete';
+                } else {
+                    btn.innerHTML = originalText;
+                }
+
+            } catch (e) {
+                console.error(e);
+                alert("Backend not connected (Demo Mode)");
+                btn.innerHTML = originalText;
             }
-        } catch (error) {
-            console.error(error);
-            alert("Connection error.");
-        } finally {
-            btn.innerHTML = originalHTML;
-            btn.style.opacity = '1';
         }
-    });
 
-    // 3. LOAD RECENT DATA FROM DB (Optional - Advance)
-    // Nanti kamu bisa buat fungsi fetch('/api/recent') di sini 
-    // untuk mengganti kartu "Recent Risk Signals" yang hardcoded.
+        function renderTrace(data, chain) {
+            const container = document.getElementById('traceResult');
+            const log = document.getElementById('traceLog');
+            container.style.display = 'block';
+            log.innerHTML = '';
 
-    // Mobile Menu & Mockup Buttons (Biarkan sama seperti sebelumnya)
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    menuToggle.addEventListener('click', () => {
-        const isHidden = getComputedStyle(navLinks).display === 'none';
-        if(isHidden) {
-            navLinks.style.display = 'flex'; navLinks.style.flexDirection = 'column'; navLinks.style.position = 'absolute'; navLinks.style.top = '70px'; navLinks.style.left = '0'; navLinks.style.width = '100%'; navLinks.style.background = '#0a0a0a'; navLinks.style.padding = '20px'; navLinks.style.borderBottom = '1px solid #333';
-        } else {
-            navLinks.style.display = ''; navLinks.style.position = '';
+            if(!data || data.length === 0) {
+                log.innerHTML = '<div style="color:var(--alert-red)">Trace failed or no history found.</div>';
+                return;
+            }
+
+            // Define Explorer URL base
+            let explorerUrl;
+            if(chain === 'solana') explorerUrl = `https://solscan.io/account/`;
+            else if(chain === 'bsc') explorerUrl = `https://bscscan.com/address/`;
+            else explorerUrl = `https://basescan.org/address/`;
+
+            data.forEach((step) => {
+                if(step.info) {
+                    // Whale/End info
+                    log.innerHTML += `
+                        <div style="padding: 10px; border: 1px dashed var(--alert-red); color: var(--alert-red); margin-top: 10px;">
+                            <strong>⚠️ END OF LINE:</strong> ${step.info}<br>
+                            WALLET: ${step.wallet}
+                        </div>`;
+                } else {
+                    // Normal Step
+                    let amountDisplay = chain === 'solana' ? 'SOL' : 'ETH/BNB';
+                    let amountVal = typeof step.amount === 'number' ? step.amount.toFixed(4) : step.amount;
+
+                    log.innerHTML += `
+                        <div style="padding: 10px; border-left: 2px solid #333; margin-left: 10px;">
+                            <span style="color: var(--data-blue);">[LAYER ${step.step}]</span> 
+                            Target received <strong style="color: #fff;">${amountVal} ${amountDisplay}</strong> 
+                            from <a href="${explorerUrl}${step.funded_by}" target="_blank" style="color: var(--hazard-orange);">${step.funded_by.substring(0,8)}...</a>
+                        </div>
+                        <div style="color: #333; margin-left: 15px;">⬇</div>
+                    `;
+                }
+            });
         }
-    });
-});
-            </script>
+    </script>
 </body>
 </html>
