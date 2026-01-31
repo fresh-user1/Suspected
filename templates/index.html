@@ -591,11 +591,13 @@
                 // STEP 6: Tampilkan Hasil
                 if (response.ok) {
                     const result = await response.json();
-                    renderTrace(result.data, chain);
+                    // Ensure result has data property and it's an array
+                    const traceData = result && result.data ? result.data : [];
+                    renderTrace(traceData, chain);
                     btn.innerHTML = 'Investigation Complete';
                 } else {
-                    const err = await response.json();
-                    alert("Error: " + err.error);
+                    const err = await response.json().catch(() => ({ error: 'Unknown error' }));
+                    alert("Error: " + (err.error || 'Request failed'));
                     btn.innerHTML = originalText;
                 }
 
@@ -682,7 +684,8 @@
             container.style.display = 'block';
             log.innerHTML = '';
 
-            if(!data || data.length === 0) {
+            // Enhanced validation: ensure data is an array
+            if(!data || !Array.isArray(data) || data.length === 0) {
                 log.innerHTML = '<div style="color:var(--alert-red)">Trace failed or no history found.</div>';
                 return;
             }
@@ -701,22 +704,27 @@
             }
 
             data.forEach((step) => {
+                if(!step) return; // Skip null/undefined steps
+                
                 if(step.info) {
                     // Whale/End info
                     log.innerHTML += `
                         <div style="padding: 10px; border: 1px dashed var(--alert-red); color: var(--alert-red); margin-top: 10px;">
                             <strong>⚠️ END OF LINE:</strong> ${step.info}<br>
-                            WALLET: ${step.wallet}
+                            WALLET: ${step.wallet || 'Unknown'}
                         </div>`;
                 } else {
-                    // Normal Step
-                    let amountVal = typeof step.amount === 'number' ? step.amount.toFixed(4) : step.amount;
+                    // Normal Step - with null safety
+                    let amountVal = typeof step.amount === 'number' ? step.amount.toFixed(4) : (step.amount || 'Unknown');
+                    let fundedBy = step.funded_by || 'Unknown';
+                    let stepNum = step.step || '?';
+                    let fundedByDisplay = fundedBy.length > 8 ? fundedBy.substring(0,8) + '...' : fundedBy;
 
                     log.innerHTML += `
                         <div style="padding: 10px; border-left: 2px solid #333; margin-left: 10px;">
-                            <span style="color: var(--data-blue);">[LAYER ${step.step}]</span> 
+                            <span style="color: var(--data-blue);">[LAYER ${stepNum}]</span> 
                             Target received <strong style="color: #fff;">${amountVal} ${amountDisplay}</strong> 
-                            from <a href="${explorerUrl}${step.funded_by}" target="_blank" style="color: var(--hazard-orange);">${step.funded_by.substring(0,8)}...</a>
+                            from <a href="${explorerUrl}${fundedBy}" target="_blank" style="color: var(--hazard-orange);">${fundedByDisplay}</a>
                         </div>
                         <div style="color: #333; margin-left: 15px;">⬇</div>
                     `;

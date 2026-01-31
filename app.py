@@ -62,9 +62,9 @@ def get_chain_data(chain, address):
             return {'type': 'blockchair_backup', 'data': data_core['transactions']}
     except Exception as e:
         print(f"❌ Backup Blockchair Error: {e}")
-        return None
+        return {'type': 'error', 'data': []}
 
-    return None
+    return {'type': 'error', 'data': []}
 
 # --- CORE TRACING LOGIC ---
 def perform_deep_trace(start_address, chain, max_depth=10):
@@ -82,7 +82,8 @@ def perform_deep_trace(start_address, chain, max_depth=10):
         api_result = get_chain_data(chain, current_wallet)
         time.sleep(1) # Rate limit safety
         
-        if not api_result or not api_result['data']: break
+        if not api_result or not api_result.get('data') or api_result.get('type') == 'error': 
+            break
         
         found_funder = False
         tx_list = api_result['data']
@@ -178,11 +179,14 @@ def execute_trace():
             # Validasi Payload Sederhana
             if len(payment_payload) > 10:
                 trace_result = perform_deep_trace(address, chain, max_depth=depth)
+                # Ensure trace_result is always a list
+                if trace_result is None:
+                    trace_result = []
                 return jsonify({"status": "success", "data": trace_result})
             else:
-                return jsonify({"error": "Invalid Payment Payload"}), 403
+                return jsonify({"error": "Invalid Payment Payload", "data": []}), 403
         except Exception as e:
-            return jsonify({"error": str(e)}), 500
+            return jsonify({"error": str(e), "data": []}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
