@@ -165,7 +165,13 @@ def execute_trace():
             "amount": price_amount,
             "recipient": RECEIVER_WALLET, # <-- GANTI INI DENGAN WALLET ASLI ANDA
             "network": chain,
-            "description": f"Trace {chain.upper()} Wallet ({depth} Layers)"
+            "description": f"Trace {chain.upper()} Wallet ({depth} Layers)",
+            "assets": [
+                {
+                    "token": "USD",
+                    "amount": price_amount
+                }
+            ]
         }
         
         response = make_response(jsonify(requirements))
