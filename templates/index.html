@@ -147,6 +147,7 @@
             width: 130px; height: 130px; border-radius: 50%;
             border: 3px solid var(--hazard-orange); object-fit: cover; background: #000; padding: 4px;
         }
+        /* Custom row styles for tiers */
         .zigzag-row.tier-5-row { border: 1px solid var(--alert-red); box-shadow: inset 0 0 50px rgba(255, 0, 0, 0.1); }
         .zigzag-row.tier-5-row .tier-avatar-large { border-color: var(--alert-red); }
         .step-icon-large { font-size: 4rem; color: var(--hazard-orange); text-shadow: 0 0 15px rgba(255,69,0,0.4); }
@@ -274,7 +275,7 @@
                 <h1 class="hero-title reveal">Suspected</h1>
                 <h2 class="hero-subtitle reveal">On-Chain Risk Registry & Multi-Chain Analysis</h2>
                 <p class="hero-disclaimer reveal">
-                    Aggregating verifiable on-chain anomalies. Now supporting ETH, BSC, Solana, & Base tracing.
+                    Aggregating verifiable on-chain anomalies. Focused on Base and Solana Ecosystems.
                 </p>
                 <div class="cta-row reveal">
                     <a href="#investigator" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass-dollar"></i> Start Investigation</a>
@@ -294,7 +295,7 @@
             <div class="container text-center reveal">
                 <h2 class="section-title" style="border: none; padding: 0; display: inline-block;">Mission Statement</h2>
                 <p class="section-desc" style="margin: 20px auto; color: #ccc;">
-                    Suspected is an on-chain risk registry that indexes wallet addresses exhibiting transaction patterns commonly associated with liquidity removal and high-risk behavior.
+                    Suspected is an on-chain risk registry that indexes wallet addresses exhibiting transaction patterns commonly associated with liquidity removal and high-risk behavior on Base and Solana.
                 </p>
             </div>
         </section>
@@ -311,7 +312,7 @@
                         <div class="zigzag-content">
                             <span style="font-family: var(--font-mono); color: #666;">PHASE 01</span>
                             <h3 style="font-size: 1.5rem; margin-bottom: 10px; text-transform: uppercase;">Data Ingestion</h3>
-                            <p style="color: #aaa;">The system aggregates user-submitted wallet addresses indicating potential liquidity breaches across EVM & Solana.</p>
+                            <p style="color: #aaa;">The system aggregates user-submitted wallet addresses indicating potential liquidity breaches across Base (EVM) & Solana.</p>
                         </div>
                     </div>
                     <div class="zigzag-row reveal">
@@ -330,7 +331,7 @@
             <div class="container">
                 <div class="text-center reveal">
                     <h2 class="section-title" style="border: none; color: #fff;">Live Money Tracer</h2>
-                    <p style="color: #888;">Multi-Chain analysis (ETH, BSC, SOL, BASE). Trace the flow of funds in real-time.</p>
+                    <p style="color: #888;">High-speed analysis for Base & Solana. Trace the flow of funds in real-time.</p>
                 </div>
 
                 <div class="form-container-box reveal" style="margin-top: 40px;">
@@ -338,8 +339,6 @@
                         <label class="form-label">SELECT NETWORK</label>
                         <select id="chainSelect" class="form-control" style="height: 50px;">
                             <option value="base">Base (L2) - Fastest</option>
-                            <option value="ethereum">Ethereum (ETH) - Premium</option>
-                            <option value="bsc">Binance Smart Chain (BSC)</option>
                             <option value="solana">Solana (SOL)</option>
                         </select>
                     </div>
@@ -382,19 +381,49 @@
                     <h2 class="section-title" style="border: none; display: inline-block; border-bottom: 3px solid var(--hazard-orange); padding-bottom: 10px;">Severity Classifications</h2>
                 </div>
                 <div class="zigzag-container">
+                    
                     <div class="zigzag-row reveal">
                         <div class="zigzag-visual"><img src="https://robohash.org/tier1?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large"></div>
                         <div class="zigzag-content">
                             <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 1 — Low Risk</h3>
                             <div style="color: var(--cctv-green); font-family: var(--font-mono);">IMPACT: &lt; $5,000</div>
+                            <p style="color: #aaa; margin-top: 5px;">Minor anomalies, likely test transactions.</p>
                         </div>
                     </div>
+
+                    <div class="zigzag-row reveal">
+                        <div class="zigzag-visual"><img src="https://robohash.org/tier2?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large"></div>
+                        <div class="zigzag-content">
+                            <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 2 — Moderate</h3>
+                            <div style="color: var(--data-blue); font-family: var(--font-mono);">IMPACT: $5,000 - $20,000</div>
+                            <p style="color: #aaa; margin-top: 5px;">Suspicious liquidity pooling patterns.</p>
+                        </div>
+                    </div>
+
+                    <div class="zigzag-row reveal">
+                        <div class="zigzag-visual"><img src="https://robohash.org/tier3?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large"></div>
+                        <div class="zigzag-content">
+                            <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 3 — High</h3>
+                            <div style="color: #FFD700; font-family: var(--font-mono);">IMPACT: $20,000 - $100,000</div>
+                            <p style="color: #aaa; margin-top: 5px;">Confirmed bridge manipulation.</p>
+                        </div>
+                    </div>
+
+                    <div class="zigzag-row reveal">
+                        <div class="zigzag-visual"><img src="https://robohash.org/tier4?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large"></div>
+                        <div class="zigzag-content">
+                            <h3 style="font-size: 1.4rem; text-transform: uppercase;">Tier 4 — Severe</h3>
+                            <div style="color: var(--hazard-orange); font-family: var(--font-mono);">IMPACT: $100,000 - $1M</div>
+                            <p style="color: #aaa; margin-top: 5px;">Connected to known drainer wallets.</p>
+                        </div>
+                    </div>
+
                     <div class="zigzag-row tier-5-row reveal">
                         <div class="zigzag-visual"><img src="https://robohash.org/tier5?set=set3&bgset=bg2" alt="Avatar" class="tier-avatar-large"></div>
                         <div class="zigzag-content">
                             <h3 style="font-size: 1.4rem; text-transform: uppercase; color: var(--alert-red);">Tier 5 — Critical Risk</h3>
                             <div style="color: var(--alert-red); font-family: var(--font-mono); font-weight: bold;">IMPACT: &gt; $1,000,000</div>
-                            <p style="color: #aaa;">Statistical risk assessment indicates massive liquidity extraction.</p>
+                            <p style="color: #aaa; margin-top: 5px;">Statistical risk assessment indicates massive liquidity extraction.</p>
                         </div>
                     </div>
                 </div>
@@ -465,7 +494,10 @@
                         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                             <div class="form-group" style="flex: 1; min-width: 200px;">
                                 <label class="form-label">NETWORK</label>
-                                <select class="form-control"><option>Ethereum</option><option>Base</option><option>BSC</option><option>Solana</option></select>
+                                <select class="form-control">
+                                    <option value="base">Base</option>
+                                    <option value="solana">Solana</option>
+                                </select>
                             </div>
                             <div class="form-group" style="flex: 1; min-width: 200px;">
                                 <label class="form-label">EST. IMPACT (USD)</label>
@@ -474,7 +506,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">EVIDENCE (TX HASH)</label>
-                            <input type="url" class="form-control" placeholder="https://etherscan.io/tx/..." required>
+                            <input type="url" class="form-control" placeholder="https://basescan.org/tx/..." required>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
                             <i class="fa-solid fa-file-arrow-up"></i> Submit for Analysis
@@ -630,11 +662,18 @@
                 return;
             }
 
-            // Define Explorer URL base
+            // MODIFIED: Only handle Base and Solana
             let explorerUrl;
-            if(chain === 'solana') explorerUrl = `https://solscan.io/account/`;
-            else if(chain === 'bsc') explorerUrl = `https://bscscan.com/address/`;
-            else explorerUrl = `https://basescan.org/address/`;
+            let amountDisplay;
+
+            if(chain === 'solana') {
+                explorerUrl = `https://solscan.io/account/`;
+                amountDisplay = 'SOL';
+            } else {
+                // Default to Base
+                explorerUrl = `https://basescan.org/address/`;
+                amountDisplay = 'ETH';
+            }
 
             data.forEach((step) => {
                 if(step.info) {
@@ -646,7 +685,6 @@
                         </div>`;
                 } else {
                     // Normal Step
-                    let amountDisplay = chain === 'solana' ? 'SOL' : 'ETH/BNB';
                     let amountVal = typeof step.amount === 'number' ? step.amount.toFixed(4) : step.amount;
 
                     log.innerHTML += `
