@@ -11,9 +11,9 @@ app = Flask(__name__)
 RECEIVER_WALLET = "ARuLoMZ3DUUA4QyKwwtziFrHnS7sRxZoKvobvHH6bfGD" 
 
 # --- API KEYS ---
-BLOCKSCOUT_API_KEY = os.getenv("BLOCKSCOUT_API_KEY") # Base Primary
-SOLSCAN_API_KEY = os.getenv("SOLSCAN_API_KEY")       # Solana Primary
-BLOCKCHAIR_API_KEY = os.getenv("BLOCKCHAIR_API_KEY") # BACKUP (WAJIB ADA)
+BLOCKSCOUT_API_KEY = os.getenv("BLOCKSCOUT_API_KEY", "") # Base Primary
+SOLSCAN_API_KEY = os.getenv("SOLSCAN_API_KEY", "")       # Solana Primary
+BLOCKCHAIR_API_KEY = os.getenv("BLOCKCHAIR_API_KEY", "") # BACKUP (WAJIB ADA)
 
 # --- HELPER: DATA FETCHING (DENGAN FAILOVER) ---
 def get_chain_data(chain, address):
@@ -101,9 +101,9 @@ def perform_deep_trace(start_address, chain, max_depth=10):
         # B. PARSING BLOCKSCOUT (BASE PRIMARY)
         elif api_result['type'] == 'evm_standard':
             for tx in tx_list:
-                if tx['to'].lower() == current_wallet.lower() and float(tx['value']) > 0:
-                    funder = tx['from']; amount = float(tx['value']) / decimals
-                    trail.append({"step": i + 1, "wallet": current_wallet, "funded_by": funder, "amount": amount, "tx_hash": tx['hash']})
+                if tx.get('to') and tx['to'].lower() == current_wallet.lower() and float(tx.get('value', 0)) > 0:
+                    funder = tx.get('from', 'unknown'); amount = float(tx.get('value', 0)) / decimals
+                    trail.append({"step": i + 1, "wallet": current_wallet, "funded_by": funder, "amount": amount, "tx_hash": tx.get('hash', 'unknown')})
                     current_wallet = funder; found_funder = True
                     if amount > whale_threshold: trail.append({"info": "WHALE/EXCHANGE DETECTED", "wallet": funder}); return trail
                     break
@@ -186,6 +186,7 @@ def execute_trace():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
-    app.run(host='0.0.0.0', port=port)
+    debug = os.environ.get("FLASK_DEBUG", "False").lower() == "true"
+    app.run(host='0.0.0.0', port=port, debug=debug)
 
 
