@@ -82,7 +82,7 @@ def perform_deep_trace(start_address, chain, max_depth=10):
         api_result = get_chain_data(chain, current_wallet)
         time.sleep(1) # Rate limit safety
         
-        if not api_result or not api_result.get('data') or api_result['type'] == 'error': 
+        if not api_result or not api_result.get('data') or api_result.get('type') == 'error': 
             break
         
         found_funder = False

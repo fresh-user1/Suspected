@@ -718,12 +718,13 @@
                     let amountVal = typeof step.amount === 'number' ? step.amount.toFixed(4) : (step.amount || 'Unknown');
                     let fundedBy = step.funded_by || 'Unknown';
                     let stepNum = step.step || '?';
+                    let fundedByDisplay = fundedBy.length > 8 ? fundedBy.substring(0,8) + '...' : fundedBy;
 
                     log.innerHTML += `
                         <div style="padding: 10px; border-left: 2px solid #333; margin-left: 10px;">
                             <span style="color: var(--data-blue);">[LAYER ${stepNum}]</span> 
                             Target received <strong style="color: #fff;">${amountVal} ${amountDisplay}</strong> 
-                            from <a href="${explorerUrl}${fundedBy}" target="_blank" style="color: var(--hazard-orange);">${fundedBy.substring(0,8)}...</a>
+                            from <a href="${explorerUrl}${fundedBy}" target="_blank" style="color: var(--hazard-orange);">${fundedByDisplay}</a>
                         </div>
                         <div style="color: #333; margin-left: 15px;">⬇</div>
                     `;
